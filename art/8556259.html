@@ -1718,7 +1718,7 @@
     var l = e.target.closest('a,button,[role="button"]');
     if (back) { e.preventDefault(); send({ pm: 'back' }); return; }
     if (aa) { e.preventDefault(); send({ pm: 'aa' }); return; }
-    if (l) { e.preventDefault(); if (/Viimased/.test(l.textContent || '')) send({ pm: 'back' }); }
+    if (l) { e.preventDefault(); if (/Viimased/.test(l.textContent || '')) send({ pm: 'nav', to: 'all' }); }
   }, true);
 
   window.addEventListener('message', function (e) {

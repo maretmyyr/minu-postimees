@@ -533,7 +533,7 @@ body.playing .feed,body.playing .list{padding-bottom:calc(min(100vw,480px)*76/36
     var l = e.target.closest('a,button,[role="button"]');
     if (back) { e.preventDefault(); send({ pm: 'back' }); return; }
     if (aa) { e.preventDefault(); send({ pm: 'aa' }); return; }
-    if (l) { e.preventDefault(); if (/Viimased/.test(l.textContent || '')) send({ pm: 'back' }); }
+    if (l) { e.preventDefault(); if (/Viimased/.test(l.textContent || '')) send({ pm: 'nav', to: 'all' }); }
   }, true);
 
   window.addEventListener('message', function (e) {
@@ -769,6 +769,8 @@ function openOv(id,onOpen){const o=$('#'+id);o.style.visibility='visible';reques
 function closeTop(){const id=stack.pop();if(!id)return;const o=$('#'+id);o.classList.remove('show');setTimeout(()=>{if(!o.classList.contains('show'))o.style.visibility='hidden'},340)}
 window.addEventListener('popstate',()=>closeTop());
 const back=()=>{if(HIST)history.back();else closeTop()};
+// 05.11: artikli tagasi-nupp viib alati Minu Postimehe vaatesse (sulgeb kõik katted)
+const artBack=()=>{if(stack.length){if(HIST)history.go(-stack.length);else while(stack.length)closeTop()}if(S.sub&&S.mode!=='mp'){S.mode='mp';save();renderToggle();$('#app').scrollTo({top:0});swapFeed()}};
 $('#fLatest').onclick=()=>goPage('all');$('#fMp').onclick=()=>goPage('mp');
 
 // ---------- minu teemad ----------
@@ -859,7 +861,7 @@ $('#rvSteps').onclick=e=>{const b=e.target.closest('[data-fs]');if(!b)return;S.f
 $('#rvTh').onclick=e=>{const b=e.target.closest('[data-th]');if(!b)return;S.th=b.dataset.th;save();rvRender();rvApply()};
 // artikli muudatused jooksevad artiklilehe sees (artchild.js); sõnumid sealt
 addEventListener('message',e=>{const m=e.data;if(!m||!m.pm||e.source!==$('#artf').contentWindow)return;
-  if(m.pm==='ready')rvApply();else if(m.pm==='back')back();else if(m.pm==='aa')openRV();else if(m.pm==='nav')goPage(m.to)});
+  if(m.pm==='ready')rvApply();else if(m.pm==='back')artBack();else if(m.pm==='aa')openRV();else if(m.pm==='nav')goPage(m.to)});
 const ARTCHILD=document.getElementById('artchild').textContent;
 function openArt(i){const a=byI(i);const f=$('#artf');closeRV();
   f.onload=()=>{let d=null;try{d=f.contentDocument}catch(e){}

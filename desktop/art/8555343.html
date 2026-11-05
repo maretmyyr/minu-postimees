@@ -607,7 +607,7 @@ if(asd&&others.length){asd.classList.add('pm-rc-host');var rw=asd.parentNode;whi
 d.addEventListener('click',function(e){var la=e.target.closest('.pm-la');if(la){e.preventDefault();e.stopPropagation();try{PW.openArt(la.getAttribute('data-ai'))}catch(er){}}},true);}catch(e){}
 d.querySelectorAll('*').forEach(function(el){Array.prototype.slice.call(el.attributes).forEach(function(at){if(/^on/i.test(at.name))el.removeAttribute(at.name)})});
 var send=function(m){try{parent.postMessage(m,'*')}catch(e){}};
-d.addEventListener('click',function(e){var l=e.target.closest('a,button,[role=button]');if(l){e.preventDefault();if(/Viimased/.test(l.textContent||''))send({pm:'back'})}},true);
+d.addEventListener('click',function(e){var l=e.target.closest('a,button,[role=button]');if(l){e.preventDefault();if(/Viimased/.test(l.textContent||''))send({pm:'nav',to:'all'})}},true);
 var sh=function(){send({pm:'h',h:Math.ceil(d.body.scrollHeight)})};if(window.ResizeObserver)new ResizeObserver(sh).observe(d.body);window.addEventListener('load',sh);setTimeout(sh,300);setTimeout(sh,1500);sh();
 send({pm:'ready'});})();</script></body><iframe sandbox="allow-scripts allow-same-origin" id="135f08249455880e8" frameborder="0" allowtransparency="true" marginheight="0" marginwidth="0" width="0" hspace="0" vspace="0" height="0" style="height:0px;width:0px;display:none;" scrolling="no" src="data:text/html;base64,PGh0bWw+PGhlYWQ+PHRpdGxlPjwvdGl0bGU+PC9oZWFkPjxib2R5PjwvYm9keT48L2h0bWw+">
     </iframe></html>

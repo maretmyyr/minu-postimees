@@ -3740,6 +3740,6 @@ if(asd&&others.length){asd.classList.add('pm-rc-host');var rw=asd.parentNode;whi
 d.addEventListener('click',function(e){var la=e.target.closest('.pm-la');if(la){e.preventDefault();e.stopPropagation();try{PW.openArt(la.getAttribute('data-ai'))}catch(er){}}},true);}catch(e){}
 d.querySelectorAll('*').forEach(function(el){Array.prototype.slice.call(el.attributes).forEach(function(at){if(/^on/i.test(at.name))el.removeAttribute(at.name)})});
 var send=function(m){try{parent.postMessage(m,'*')}catch(e){}};
-d.addEventListener('click',function(e){var l=e.target.closest('a,button,[role=button]');if(l){e.preventDefault();if(/Viimased/.test(l.textContent||''))send({pm:'back'})}},true);
+d.addEventListener('click',function(e){var l=e.target.closest('a,button,[role=button]');if(l){e.preventDefault();if(/Viimased/.test(l.textContent||''))send({pm:'nav',to:'all'})}},true);
 var sh=function(){send({pm:'h',h:Math.ceil(d.body.scrollHeight)})};if(window.ResizeObserver)new ResizeObserver(sh).observe(d.body);window.addEventListener('load',sh);setTimeout(sh,300);setTimeout(sh,1500);sh();
 send({pm:'ready'});})();</script></body></html>
