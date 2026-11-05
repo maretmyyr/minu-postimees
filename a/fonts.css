@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'GT Eesti';
+  font-style: normal;
+  font-weight: 300;
+  src: url("font/767299c99005cba4.woff2") format('woff2');
+}
+
+@font-face {
+  font-family: 'GT Eesti';
+  font-style: normal;
+  font-weight: 400;
+  src: url("font/c6431895f7a627ca.woff2") format('woff2');
+}
+
+@font-face {
+  font-family: 'GT Eesti';
+  font-style: normal;
+  font-weight: 600;
+  src: url("font/415aa5a8d310e95b.woff2") format('woff2');
+}
+
+@font-face {
+  font-family: 'GT Eesti';
+  font-style: normal;
+  font-weight: 700;
+  src: url("font/f2e9f39765a0cbfc.woff2") format('woff2');
+}
+@font-face {
+  font-family: 'Charter';
+  font-style: normal;
+  font-weight: 400;
+  src: url("font/558eeb20f394bda6.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Charter';
+  font-style: italic;
+  font-weight: 400;
+  src: url("font/a370ad47d15b6145.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Charter';
+  font-style: normal;
+  font-weight: 700;
+  src: url("font/323611bcf76f0142.woff") format('woff');
+}
+
+@font-face {
+  font-family: 'Charter';
+  font-style: italic;
+  font-weight: 700;
+  src: url("font/af894ef463573f2e.woff") format('woff');
+}
