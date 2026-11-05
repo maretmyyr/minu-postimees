@@ -668,7 +668,7 @@ function renderToggle(){const on=S.mode==='mp';document.body.classList.toggle('p
   $('#xlb').textContent=on?'Kõik viimased uudised':'Minu PM';
   $('#xtx').textContent=on?'Kõik uudised ajalises järjekorras':'Sinu teemad ja päeva kokkuvõte'}
 function goPage(m){if(m==='mp'&&!S.sub){openPw();return}
-  if(stack.length){if(HIST)history.go(-stack.length);else while(stack.length)closeTop()}
+  if(stack.length){const n=stack.length;while(stack.length)closeTop();if(HIST)history.go(-n)}
   if(S.mode===m){$('#app').scrollTo({top:0,behavior:'smooth'});return}
   S.mode=m;save();renderToggle();$('#app').scrollTo({top:0});swapFeed()}
 $('#xgo').onclick=()=>goPage(S.mode==='mp'?'all':'mp');
@@ -770,7 +770,7 @@ function closeTop(){const id=stack.pop();if(!id)return;const o=$('#'+id);o.class
 window.addEventListener('popstate',()=>closeTop());
 const back=()=>{if(HIST)history.back();else closeTop()};
 // 05.11: artikli tagasi-nupp viib alati Minu Postimehe vaatesse (sulgeb kõik katted)
-const artBack=()=>{if(stack.length){if(HIST)history.go(-stack.length);else while(stack.length)closeTop()}if(S.sub&&S.mode!=='mp'){S.mode='mp';save();renderToggle();$('#app').scrollTo({top:0});swapFeed()}};
+const artBack=()=>{if(stack.length){const n=stack.length;while(stack.length)closeTop();if(HIST)history.go(-n)}if(S.sub&&S.mode!=='mp'){S.mode='mp';save();renderToggle();$('#app').scrollTo({top:0});swapFeed()}};
 $('#fLatest').onclick=()=>goPage('all');$('#fMp').onclick=()=>goPage('mp');
 
 // ---------- minu teemad ----------
@@ -866,7 +866,7 @@ const ARTCHILD=document.getElementById('artchild').textContent;
 function openArt(i){const a=byI(i);const f=$('#artf');closeRV();
   f.onload=()=>{let d=null;try{d=f.contentDocument}catch(e){}
     if(d&&d.body&&!d.documentElement.getAttribute('data-pm')){const sc=d.createElement('script');sc.textContent=ARTCHILD;d.body.appendChild(sc)}};
-  f.src='art/'+a.id+'.html';openOv('ovArt')}
+  {const u=new URL('art/'+a.id+'.html',location.href).href;try{f.contentWindow.location.replace(u)}catch(e){f.src=u}}openOv('ovArt')}
 
 // ---------- kleepuv pleier ----------
 const P={i:null,playing:false,t:0,timer:null};
