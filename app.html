@@ -88,7 +88,7 @@ body.pg-all #hTopics{display:none}
 .pic{display:block;width:100%;aspect-ratio:3/2;border-radius:6px;object-fit:cover;background:var(--ph)}
 .card h3{margin:0;font-weight:600;font-size:20px;line-height:24px;color:var(--heading);cursor:pointer}
 .lead{margin:0;font-size:16px;line-height:24px;color:var(--body)}
-.more{font-weight:600;color:var(--pm);cursor:pointer}
+.more{font-weight:600;color:var(--pm);cursor:pointer}.more-row{display:inline-flex;align-items:center;gap:4px;vertical-align:top}.more-row svg{flex:none}
 .meta{display:flex;align-items:center;justify-content:space-between;min-height:24px}
 .who{display:flex;align-items:center;gap:6px;font-size:14px;line-height:18px;color:var(--time)}
 .who b{font-weight:600;font-size:14px;line-height:20px;color:var(--heading)}
@@ -725,10 +725,7 @@ function tkChip(t,on){return `<button class="chip tk-b${on?' sel':''}" data-ft="
 function carHTML(){const L=carTopics();if(!L.length)return '';return `<section class="tcar" aria-label="Avasta teemasid"><div class="tcar-h"><h2>Avasta teemasid</h2><p>Praegu kõige populaarsemad teemad</p></div>
   <div class="tk-row">${L.map(x=>{const on=S.topics.includes(x.t);return tkChip(x.t,on)}).join('')}<button class="tk-all" id="tkAll">Kõik teemad${ICON.arrow}</button></div></section>`}
 function listHTML(a){return `<div class="la" data-i="${a.i}"><img src="${a.img}" alt="" loading="lazy"><div class="tx"><div class="mt"><b>${esc(a.label)}</b><span>${when(a.t,'list')}</span></div><h4>${a.kicker?`<em>${esc(a.kicker)}</em> ⟩ `:''}${esc(a.h)}</h4></div></div>`}
-function fitLeads(root){const m=$('#measure');m.style.width=root.querySelector('.card')?root.querySelector('.card').clientWidth+'px':'336px';
-  root.querySelectorAll('.card').forEach(c=>{const a=byI(c.dataset.i);const words=a.lead.replace(/…$/,'').split(' ');const tail='… <span class="more">Loe rohkem</span>';
-    let lo=1,hi=words.length,best=1;while(lo<=hi){const mid=(lo+hi)>>1;m.innerHTML=esc(words.slice(0,mid).join(' ').replace(/[,.;:«»]$/,''))+tail;if(m.offsetHeight<=49){best=mid;lo=mid+1}else hi=mid-1}
-    c.querySelector('.xc').innerHTML=esc(words.slice(0,best).join(' ').replace(/[,.;:«»]$/,''))+tail})}
+function fitLeads(root){/* 13.11 testi järel: kokku-olekus liidi algust pole, ainult „Loe rohkem“ link omal real (variant A) */root.querySelectorAll('.card').forEach(c=>{c.querySelector('.xc').innerHTML='<span class="more more-row">Loe rohkem<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'})}
 const byI=i=>ARTS.find(a=>a.i==i);
 function renderFeed(){const main=$('#main');
   if(S.mode==='mp'){const list=mpArts();CAR=null;main.innerHTML=`<div class="feed" id="feed">${list.length&&S.topics.length?dgHTML():''}${list.map((a,k)=>cardHTML(a)+(k===0?carHTML():'')).join('')||'<div class="emptyst"><b>Sinu teemadel pole viimase 72 tunni jooksul uudiseid</b><span>Lisa teemasid juurde või vaata vahepeal kõiki viimaseid uudiseid.</span><button class="mono" id="emptyEdit">Muuda teemasid</button></div>'}</div>`;fitLeads(main)}
