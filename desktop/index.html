@@ -326,8 +326,8 @@ function fullLead(a){return (window.LEADS&&window.LEADS[a.id])||a.lead}
 function cardHTML(a){return `<article class="card" data-i="${a.i}">
   <img class="pic" src="${a.img}" alt="" loading="lazy">
   <h3>${esc(a.h)}</h3>
-  <p class="lead xo">${esc(fullLead(a))}</p>
   <ul class="bl xo">${a.pts.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>
+  <p class="lead xo">${esc(fullLead(a))}</p>
   <div class="ltm xo"><span>Jälgi teemat</span>${artTopics(a).map(t=>tkChip(t,S.topics.includes(t))).join('')}</div>
   <div class="meta"><div class="who"><b>${esc(pubOf(a))}</b>·<span>${when(a.t)}</span></div><button class="kuula">${ICON.play}<i class="pz"></i>Kuula</button></div>
   <p class="lead xc"></p>
@@ -515,7 +515,7 @@ $('#tgroups').onclick=e=>{const c=e.target.closest('.chip');if(!c)return;const t
 // DESKTOP: vihjemull pole vaja — teemade kaart on kogu aeg nähtav
 function renderTip(){R.querySelector('.tip')?.remove()}
 // DESKTOP: Minu uudiste voog Facelift „Feed section/Sidebar" plokkidena — suurus vaheldub, sama plokk ei tule kaks korda järjest
-function faHTML(a,xl,lead,date){return `<article class="fa card${xl?' xl':''}" data-i="${a.i}"${lead?' data-l="3"':''}><img class="pic" src="${a.img}" alt="" loading="lazy"><div class="ft">${date?`<div class="sd"><b class="sl">${esc(a.label)}</b><span>${when(a.t,"list")}</span></div>`:`<span class="sl">${esc(a.label)}</span>`}<h3>${a.kicker?`<em>${esc(a.kicker)}</em> ￨ `:''}${esc(a.h)}</h3><p class="fd lead xo">${esc(fullLead(a))}</p><ul class="bl xo">${a.pts.map(p=>`<li>${esc(p)}</li>`).join('')}</ul><div class="ltm xo"><span>Jälgi teemat</span>${artTopics(a).map(t=>tkChip(t,S.topics.includes(t))).join('')}</div><div class="fm"><div class="who"><b>${esc(pubOf(a))}</b>${date?'':'<span>·</span><span>'+when(a.t)+'</span>'}</div><button class="kuula">${ICON.play}<i class="pz"></i>Kuula</button></div><p class="fd lead xc"></p><button class="loe loe-p xo">Loe artiklit ${ICON.arrow}</button></div></article>`}
+function faHTML(a,xl,lead,date){return `<article class="fa card${xl?' xl':''}" data-i="${a.i}"${lead?' data-l="3"':''}><img class="pic" src="${a.img}" alt="" loading="lazy"><div class="ft">${date?`<div class="sd"><b class="sl">${esc(a.label)}</b><span>${when(a.t,"list")}</span></div>`:`<span class="sl">${esc(a.label)}</span>`}<h3>${a.kicker?`<em>${esc(a.kicker)}</em> ￨ `:''}${esc(a.h)}</h3><ul class="bl xo">${a.pts.map(p=>`<li>${esc(p)}</li>`).join('')}</ul><p class="fd lead xo">${esc(fullLead(a))}</p><div class="ltm xo"><span>Jälgi teemat</span>${artTopics(a).map(t=>tkChip(t,S.topics.includes(t))).join('')}</div><div class="fm"><div class="who"><b>${esc(pubOf(a))}</b>${date?'':'<span>·</span><span>'+when(a.t)+'</span>'}</div><button class="kuula">${ICON.play}<i class="pz"></i>Kuula</button></div><p class="fd lead xc"></p><button class="loe loe-p xo">Loe artiklit ${ICON.arrow}</button></div></article>`}
 function fsHTML(t,g){const f=(a,xl)=>faHTML(a,xl);
   if(t==='1')return `<section class="fs fs-1">${faHTML(g[0],1,1)}</section>`;
   if(t==='e2')return `<section class="fs fs-e2">${f(g[0],1)}${f(g[1],1)}</section>`;

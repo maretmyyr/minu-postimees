@@ -699,8 +699,8 @@ function fullLead(a){return (window.LEADS&&window.LEADS[a.id])||a.lead}
 function cardHTML(a){return `<article class="card" data-i="${a.i}">
   <img class="pic" src="${a.img}" alt="" loading="lazy">
   <h3>${esc(a.h)}</h3>
-  <p class="lead xo">${esc(fullLead(a))}</p>
   <ul class="bl xo">${a.pts.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>
+  <p class="lead xo">${esc(fullLead(a))}</p>
   <div class="ltm xo"><span>Jälgi teemat</span>${artTopics(a).map(t=>tkChip(t,S.topics.includes(t))).join('')}</div>
   <div class="meta"><div class="who"><b>${esc(pubOf(a))}</b>·<span>${when(a.t)}</span></div><button class="kuula">${ICON.play}<i class="pz"></i>Kuula</button></div>
   <p class="lead xc"></p>
