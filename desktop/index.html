@@ -528,9 +528,15 @@ function fsHTML(t,g){const f=(a,xl)=>faHTML(a,xl);
   const col=`<div class="fs-col">${f(g[1])}${f(g[2])}</div>`;
   return t==='v'?`<section class="fs fs-v">${f(g[0],1)}${col}</section>`:`<section class="fs fs-lv">${col}${f(g[0],1)}</section>`}
 function adHTML(){return `<div class="cad" aria-label="Reklaam"><div class="cad-in">Reklaam</div></div>`}
-function deskBlocks(list){/* 19.11: Facelift „Feed section/Sidebar · large-list“ (5 uudist plokis) + sisubänner iga 5 uudise järel (postimees.ee .dfp-ad--horizontal); „Avasta teemasid“ voos enam pole */let out='',i=0;while(i<list.length){const g=list.slice(i,i+5);out+=`<section class="fs fs-ll">${g.map(a=>faHTML(a,0,0,0)).join('')}</section>`;i+=5;if(g.length===5&&i<list.length)out+=adHTML()}return out}
+var FPAGE=1,PER=25; /* var: renderFeed() kutsutakse varem kui see rida (hoisting) */
+function pgnHTML(n){if(n<2)return '';const L='<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15.0975 19.9201L8.5775 13.4001C7.8075 12.6301 7.8075 11.3701 8.5775 10.6001L15.0975 4.08008" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg>',Rr='<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 19.9201L14.52 13.4001C15.29 12.6301 15.29 11.3701 14.52 10.6001L8 4.08008" stroke="currentColor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  return `<nav class="pgn" aria-label="Lehekülgede vahel liikumine"><button type="button" class="prev" data-pg="-1"${FPAGE<=1?' disabled':''}>${L}Eelmine</button><button type="button" class="next" data-pg="1"${FPAGE>=n?' disabled':''}>Järgmine${Rr}</button></nav>`}
+function deskBlocks(list){/* 19.11: Facelift „Feed section/Sidebar · large-list“ (5 uudist plokis) + sisubänner iga 5 uudise järel (postimees.ee .dfp-ad--horizontal); „Avasta teemasid“ voos enam pole; 25 uudise järel lehitsemine nagu postimees.ee/latest (.pagination: Eelmine / Järgmine) */
+  FPAGE=FPAGE||1;PER=PER||25;const pages=Math.max(1,Math.ceil(list.length/PER));FPAGE=Math.min(Math.max(1,FPAGE),pages);const sub=list.slice((FPAGE-1)*PER,FPAGE*PER);
+  let out='',i=0;while(i<sub.length){const g=sub.slice(i,i+5);out+=`<section class="fs fs-ll">${g.map(a=>faHTML(a,0,0,0)).join('')}</section>`;i+=5;if(g.length===5&&i<sub.length)out+=adHTML()}
+  return out+pgnHTML(pages)}
 function renderFeed(){const main=$('#main');$('#wrap').classList.toggle('all',S.mode!=='mp');
-  if(S.mode==='mp'){const list=mpArts();CAR=null;main.innerHTML=`<div class="feed" id="feed">${list.length&&S.topics.length?dgHTML():''}${deskBlocks(list)||'<div class="emptyst"><b>Sinu teemadel pole viimase 72 tunni jooksul uudiseid</b><span>Lisa teemasid juurde või vaata vahepeal kõiki viimaseid uudiseid.</span><button class="mono" id="emptyEdit">Muuda teemasid</button></div>'}</div>`;fitLeads(main)}
+  if(S.mode==='mp'){const list=mpArts();CAR=null;main.innerHTML=`<div class="feed" id="feed">${list.length&&S.topics.length&&FPAGE===1?dgHTML():''}${deskBlocks(list)||'<div class="emptyst"><b>Sinu teemadel pole viimase 72 tunni jooksul uudiseid</b><span>Lisa teemasid juurde või vaata vahepeal kõiki viimaseid uudiseid.</span><button class="mono" id="emptyEdit">Muuda teemasid</button></div>'}</div>`;fitLeads(main)}
   else main.innerHTML=`<div class="list">${FEED.map(listHTML).join('')}</div>`;
   renderTip();if(typeof P!=='undefined')syncKuula()}
 // DESKTOP: artikli loogika = mobiil (pealkiri/pilt avab kaardi: sissejuhatus + punktid + „Loe artiklit"); sissejuhatuse lõikus iga kaardi enda laiuse järgi
@@ -539,6 +545,14 @@ renderFeed();
 // 19.11 DESKTOP: sisubänner üle mõlema veeru; Minu teemad kaart kleepub kuni esimese bännerini; „Kõik viimased uudised“ ristviide Minu PM lehel peidus
 R.appendChild(Object.assign(document.createElement('style'),{textContent:`
 .wrap.pg-mp #xgo{display:none}
+.wrap.pg-mp:not(.srch) #ovSearch.dsearch{padding-top:0}
+.fs-ll .fa.card:not(.open) h3{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
+.pgn{margin-right:-316px;padding-top:32px;display:flex;justify-content:space-between;gap:48px}
+.pgn button{display:inline-flex;align-items:center;gap:8px;height:52px;box-sizing:border-box;border:2px solid #000099;border-radius:16px;background:#fff;color:#000099;font:600 18px/24px var(--gt);cursor:pointer}
+.pgn .prev{padding:12px 24px 12px 12px}.pgn .next{padding:12px 12px 12px 24px}
+.pgn button:disabled{border-color:#dadee3;color:#b8bdc6;cursor:default}
+.pgn button:not(:disabled):hover{background:#eef3f5}
+.pgn svg{width:24px;height:24px;flex:none}
 .fs-ll .fa.card h3{font-size:24px;line-height:28px}
 .wrap.pg-mp .dside{position:relative;top:auto;align-self:start}
 .wrap.pg-mp #ovTopics{position:sticky;top:16px}
@@ -548,7 +562,9 @@ R.appendChild(Object.assign(document.createElement('style'),{textContent:`
 function sideStop(){const sd=R.querySelector('.dside');if(!sd)return;const ad=$('#main').querySelector('.cad');
   if(!ad||!$('#wrap').classList.contains('pg-mp')){sd.style.height='';return}
   sd.style.height=Math.max(0,ad.getBoundingClientRect().top-sd.getBoundingClientRect().top)+'px'}
-new ResizeObserver(sideStop).observe($('#main'));addEventListener('resize',sideStop);
+new ResizeObserver(sideStop).observe($('#main'));
+$('#main').addEventListener('click',e=>{const b=e.target.closest('.pgn button');if(!b||b.disabled)return;e.stopPropagation();FPAGE+=+b.dataset.pg;renderFeed();window.scrollTo({top:0})});
+swapFeed=(f=>function(){FPAGE=1;f()})(swapFeed);addEventListener('resize',sideStop);
 renderFeed=(f=>function(){f();requestAnimationFrame(sideStop)})(renderFeed);
 
 // DESKTOP: AI otsingu väli voo kohal
